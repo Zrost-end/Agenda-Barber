@@ -5,6 +5,7 @@
 
 const SCOPES = "https://www.googleapis.com/auth/calendar";
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+const BARBER_EMAIL = "4co.marketing@gmail.com";
 
 // =========================================================
 // VARIÁVEIS GLOBAIS
@@ -251,6 +252,8 @@ async function criarEventoGoogle(servico, data, hora, nome, email, telefone) {
     duracaoServico = 10;
   } else if (servicoLower.includes('luzes')) {
     duracaoServico = 120; // 2h
+  } else if (servicoLower.includes('platinado')) {
+    duracaoServico = 120; // 2h
   } else if (servicoLower.includes('alisante')) {
     duracaoServico = 30;
   }
@@ -267,7 +270,10 @@ async function criarEventoGoogle(servico, data, hora, nome, email, telefone) {
     description: `Cliente: ${nome}\nEmail: ${email}\nTelefone: ${telefone}`,
     start: { dateTime: `${data}T${hora}:00-03:00`, timeZone: "America/Sao_Paulo" },
     end: { dateTime: horaFim, timeZone: "America/Sao_Paulo" },
-    attendees: [{ email: email }],
+    attendees: [
+    { email: email }, 
+    { email: BARBER_EMAIL } // Email Barbeiro
+  ],
     reminders: {
       useDefault: false,
       overrides: [{ method: "email", minutes: 24 * 60 }, {method: "popup", minutes: 60}],
